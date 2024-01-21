@@ -24,13 +24,27 @@ const Page = async ({ params }: { params: { id: string } }) => {
         <EntryCard
           key={entry._id}
           id={entry._id}
-          currentUserId={user?.id || ""}
+          currentUserId={userInfo?._id || ""}
           parentId={entry.parentId}
           content={entry.text}
-          author={entry.author}
-          community={entry.community}
+          author={{
+            name: entry.author.name,
+            image: entry.author.image,
+            id: entry.author.id,
+          }}
+          community={
+            entry.community
+              ? {
+                  _id: entry.community._id,
+                  id: entry.community.id,
+                  name: entry.community.name,
+                  image: entry.community.image,
+                }
+              : null
+          }
           createdAt={entry.createdAt}
-          comments={entry.children}
+          comments={JSON.parse(JSON.stringify(entry.children))}
+          likes={JSON.parse(JSON.stringify(entry.likes))}
         />
       </div>
       <div className="mt-7">
@@ -46,14 +60,28 @@ const Page = async ({ params }: { params: { id: string } }) => {
           <EntryCard
             key={comment._id}
             id={comment._id}
-            currentUserId={user?.id || ""}
+            currentUserId={userInfo?._id || ""}
             parentId={comment.parentId}
             content={comment.text}
-            author={comment.author}
-            community={comment.community}
+            author={{
+              name: comment.author.name,
+              image: comment.author.image,
+              id: comment.author.id,
+            }}
+            community={
+              comment.community
+                ? {
+                    _id: comment.community._id,
+                    id: comment.community.id,
+                    name: comment.community.name,
+                    image: comment.community.image,
+                  }
+                : null
+            }
             createdAt={comment.createdAt}
-            comments={comment.children}
-            isComment={true}
+            comments={JSON.parse(JSON.stringify(comment.children))}
+            likes={JSON.parse(JSON.stringify(comment.likes))}
+            isComment
           />
         ))}
       </div>

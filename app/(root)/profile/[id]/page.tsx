@@ -18,8 +18,6 @@ async function Page({ params }: { params: { id: string } }) {
 
   if (!userInfo?.onboarded) redirect("/onboarding");
 
-  console.log("user info object", userInfo);
-
   return (
     <section>
       <ProfileHeader
@@ -32,7 +30,7 @@ async function Page({ params }: { params: { id: string } }) {
       />
 
       <div className="mt-9">
-        <Tabs defaultValue="journal" className="w-full">
+        <Tabs defaultValue="entries" className="w-full">
           <TabsList className="tab">
             {profileTabs.map((tab: any) => (
               <TabsTrigger key={tab.label} value={tab.value} className="tab">
@@ -54,19 +52,18 @@ async function Page({ params }: { params: { id: string } }) {
               </TabsTrigger>
             ))}
           </TabsList>
-          {profileTabs.map((tab: any) => (
-            <TabsContent
-              key={`content-${tab.label}`}
-              value={tab.value}
-              className="w-full text-light-1"
-            >
-              <EntriesTab
-                currentUserId={user.id}
-                accountId={userInfo.id}
-                accountType="User"
-              />
-            </TabsContent>
-          ))}
+
+          <TabsContent
+            key={`content-enties`}
+            value="entries"
+            className="w-full text-light-1"
+          >
+            <EntriesTab
+              currentUserId={userInfo._id}
+              accountId={userInfo.id}
+              accountType="User"
+            />
+          </TabsContent>
         </Tabs>
       </div>
     </section>
